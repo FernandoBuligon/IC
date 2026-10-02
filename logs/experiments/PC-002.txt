@@ -1,0 +1,40 @@
+Experiment: PC-002
+Method: PatchCore
+Implementation: Official Amazon Science repository
+Dataset: MVTec AD
+Categories: all 15
+
+Backbone: WideResNet50
+Layers: layer2, layer3
+Resize: 256
+Image size: 224
+Coreset: 0.1
+Pretrain embedding dim: 1024
+Target embedding dim: 1024
+Patch size: 3
+Nearest neighbors: 1
+Seed: 0
+FAISS: CPU
+
+Mean Image AUROC: 0.991093
+Mean Full Pixel AUROC: 0.981183
+Mean Anomalous-image Pixel AUROC: 0.973656
+
+Official reported baseline:
+Image AUROC: 0.992
+Pixel AUROC: 0.981
+PRO: 0.944
+
+Difference from reported baseline:
+Image AUROC: -0.000907
+Pixel AUROC: +0.000183
+
+Wall-clock runtime: 11m50.846s
+
+Code commit:
+fcaa92f124fb1ad74a7acf56726decd4b27cbcad
+
+Notes:
+- Official code executed with a modern Python/PyTorch stack.
+- NVIDIA GeForce RTX 5060 used for PyTorch inference.
+- FAISS CPU used instead of the FAISS-GPU option from the official command.

@@ -1,0 +1,5 @@
+Dataset: ImageNet ILSVRC / CLS-LOC train
+Purpose: EfficientAD penalty dataset
+Classes: 1000
+Expected images: approximately 1,281,167
+Path: /home/syl/IC/datasets/imagenet/ILSVRC/Data/CLS-LOC/train

@@ -1,0 +1,19 @@
+Experiment: PC-001
+Method: PatchCore
+Dataset: MVTec AD
+Category: bottle
+Backbone: WideResNet50
+Layers: layer2, layer3
+Resize: 256
+Image size: 224
+Coreset: 0.1
+Pretrain embedding dim: 1024
+Target embedding dim: 1024
+Patch size: 3
+Nearest neighbors: 1
+Seed: 0
+FAISS: CPU
+
+Image AUROC: 1.000
+Full Pixel AUROC: 0.985
+Anomalous-image Pixel AUROC: 0.980

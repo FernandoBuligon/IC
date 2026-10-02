@@ -1,0 +1,29 @@
+Experiment: EA-002
+Method: EfficientAD-M
+Implementation: nelson1425/EfficientAD (unofficial)
+Dataset: MVTec AD
+Category: bottle
+
+Model size: medium
+Teacher: teacher_medium.pth
+Training steps: 70000
+ImageNet penalty: enabled
+ImageNet classes: 1000
+
+Final Image AUROC: 100.0000%
+
+Wall-clock runtime:
+127m6.782s
+
+Commit:
+fcab5146f84ae17597044ad5ddf1656ccf805401
+
+Status:
+Full reproduction run completed successfully.
+
+Official MVTec evaluation:
+Image-level AUROC: 1.000000
+AU-PRO @ FPR<=0.3: 0.957444
+
+Evaluation output:
+~/IC/results/efficientad/EA002_bottle_full/metrics/mvtec_ad/metrics.json

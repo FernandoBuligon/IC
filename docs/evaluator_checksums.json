@@ -1,0 +1,15 @@
+{
+  "baselines/efficientad/mvtec_ad_evaluation/evaluate_experiment.py": "c8f9c06072112399ae542ce049188921394fee21996d7797df9ae72ef668c29e",
+  "baselines/efficientad/mvtec_ad_evaluation/evaluate_multiple_experiments.py": "b688eed2ce938b5152835bfe4d85d2c4901265ded4b7a804d870a1dd78506290",
+  "baselines/efficientad/mvtec_ad_evaluation/generic_util.py": "96ed3135f23f49a75a767891dd1e3c975973590af31cad0cc39f655f6d76fef2",
+  "baselines/efficientad/mvtec_ad_evaluation/print_metrics.py": "879f64b678ff3ced3291aba4634bff79ca88ab33f51d4ea051544992bb2e5030",
+  "baselines/efficientad/mvtec_ad_evaluation/pro_curve_util.py": "80feff3b5c96023a93ec3a28494583c7732f639547f572982952bb6d0469a29d",
+  "baselines/efficientad/mvtec_ad_evaluation/roc_curve_util.py": "fccc992991caf973d2c34a49d3a174662ac2cf90651f4ca026d09d21f1044c96",
+  "baselines/efficientad/mvtec_loco_ad_evaluation/evaluate_experiment.py": "bb402fac90016471611946f818d7b09b001ef011ed09f834ec24479bd6c45444",
+  "baselines/efficientad/mvtec_loco_ad_evaluation/evaluate_multiple_experiments.py": "0c62ed421de4a7e165dfecbb713f808d06452799710e805a8b01013b19cd5994",
+  "baselines/efficientad/mvtec_loco_ad_evaluation/print_metrics.py": "ef377cec26d6f854052328644e68b15a552d84d516f5747adab5a31ac05fd4f9",
+  "baselines/efficientad/mvtec_loco_ad_evaluation/src/aggregation.py": "19cce413ed9124ebe6bcb36b400f45d413a0798ee7fffc57a39efdacc18c36e8",
+  "baselines/efficientad/mvtec_loco_ad_evaluation/src/image.py": "2a6fa152769045e606f93501d928dc8ea3244042f7b52061394a6fb66310d0da",
+  "baselines/efficientad/mvtec_loco_ad_evaluation/src/metrics.py": "13f1dc2916e27e4c70f9ddccdd11df60e23b285b3ca3f8f98f8943abdcf1204e",
+  "baselines/efficientad/mvtec_loco_ad_evaluation/src/util.py": "6b9a732f4720c2b5e35950fe8ed83120f75897465dfe1ebe7e4fbf417f2e9f0a"
+}

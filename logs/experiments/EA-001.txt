@@ -1,0 +1,22 @@
+Experiment: EA-001
+Method: EfficientAD-M
+Implementation: nelson1425/EfficientAD (unofficial)
+Dataset: MVTec AD
+Category: bottle
+
+Model size: medium
+Teacher: teacher_medium.pth
+Training steps: 1000
+ImageNet penalty: disabled
+Purpose: smoke test only
+
+Final Image AUROC: 97.7778%
+
+Wall-clock runtime: 1m25.017s
+
+Commit:
+fcab5146f84ae17597044ad5ddf1656ccf805401
+
+Status:
+Pipeline successfully validated.
+This result must not be used as the final baseline result.

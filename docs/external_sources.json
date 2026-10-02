@@ -1,0 +1,24 @@
+{
+  "patchcore": {
+    "url": "https://github.com/amazon-science/patchcore-inspection",
+    "commit": "fcaa92f124fb1ad74a7acf56726decd4b27cbcad",
+    "tracked_code_changes": false
+  },
+  "efficientad": {
+    "url": "https://github.com/nelson1425/EfficientAD",
+    "commit": "fcab5146f84ae17597044ad5ddf1656ccf805401",
+    "tracked_code_changes": false
+  },
+  "mvtec_ad_evaluator": {
+    "version": "1.0",
+    "source": "https://www.mvtec.com/research-teaching/datasets/mvtec-ad",
+    "note": "Local source hashes recorded; original archive unavailable, so pristine-source equality was not independently established."
+  },
+  "mvtec_loco_evaluator": {
+    "version": "2.0",
+    "source": "https://www.mvtec.com/research-teaching/datasets/mvtec-loco-ad",
+    "archive_sha256": "3a3bd3816cc8d9e3abc10d308b9315ca46c5b7fedd98128920bbc9bc2bad3823",
+    "patch": "logs/mvtec_loco_evaluator_patch.diff",
+    "modified_file": "src/aggregation.py"
+  }
+}
