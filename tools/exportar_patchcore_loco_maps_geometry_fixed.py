@@ -1,0 +1,333 @@
+#!/usr/bin/env python3
+
+import argparse
+import csv
+from pathlib import Path
+
+import numpy as np
+import tifffile
+import torch
+import torch.nn.functional as F
+from PIL import Image
+
+import patchcore.common
+import patchcore.patchcore
+from patchcore.datasets.mvtec import MVTecDataset, DatasetSplit
+
+
+CATEGORIES = [
+    "breakfast_box",
+    "juice_bottle",
+    "pushpins",
+    "screw_bag",
+    "splicing_connectors",
+]
+
+RESIZE = 256
+
+
+def resized_geometry(width, height, size=RESIZE):
+    """
+    Geometria correspondente a torchvision.transforms.Resize(int):
+    a menor dimensão torna-se 'size' e o aspecto é preservado.
+    """
+    if width <= height:
+        new_width = size
+        new_height = int(size * height / width)
+    else:
+        new_height = size
+        new_width = int(size * width / height)
+
+    return new_width, new_height
+
+
+def restore_center_crop_map(anomaly_map, original_width, original_height):
+    anomaly_map = np.asarray(
+        anomaly_map,
+        dtype=np.float32,
+    )
+
+    if anomaly_map.ndim != 2:
+        raise RuntimeError(
+            f"Mapa deveria ser 2D, recebido {anomaly_map.shape}"
+        )
+
+    crop_height, crop_width = anomaly_map.shape
+
+    resized_width, resized_height = resized_geometry(
+        original_width,
+        original_height,
+    )
+
+    # Mesmo posicionamento usado pelo CenterCrop do torchvision.
+    top = int(round(
+        (resized_height - crop_height) / 2.0
+    ))
+
+    left = int(round(
+        (resized_width - crop_width) / 2.0
+    ))
+
+    if (
+        top < 0 or
+        left < 0 or
+        top + crop_height > resized_height or
+        left + crop_width > resized_width
+    ):
+        raise RuntimeError(
+            "O anomaly map não cabe na geometria "
+            f"redimensionada: map={anomaly_map.shape}, "
+            f"resize={(resized_height, resized_width)}"
+        )
+
+    # Região fora do CenterCrop nunca foi observada pelo modelo.
+    # Usa o menor score observado no crop como valor neutro.
+    fill_score = float(anomaly_map.min())
+
+    canvas = np.full(
+        (resized_height, resized_width),
+        fill_score,
+        dtype=np.float32,
+    )
+
+    canvas[
+        top:top + crop_height,
+        left:left + crop_width
+    ] = anomaly_map
+
+    tensor = torch.from_numpy(
+        canvas
+    )[None, None]
+
+    restored = F.interpolate(
+        tensor,
+        size=(original_height, original_width),
+        mode="bilinear",
+        align_corners=False,
+    )
+
+    restored = (
+        restored[0, 0]
+        .numpy()
+        .astype(np.float32)
+    )
+
+    return (
+        restored,
+        resized_width,
+        resized_height,
+        left,
+        top,
+        fill_score,
+    )
+
+
+def main():
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("--dataset", required=True)
+    parser.add_argument("--models", required=True)
+    parser.add_argument("--output", required=True)
+
+    parser.add_argument(
+        "--batch-size",
+        type=int,
+        default=2,
+    )
+
+    args = parser.parse_args()
+
+    dataset_root = Path(args.dataset)
+    models_root = Path(args.models)
+    output_root = Path(args.output)
+
+    device = torch.device(
+        "cuda:0"
+        if torch.cuda.is_available()
+        else "cpu"
+    )
+
+    print("Device:", device)
+
+    total_maps = 0
+
+    for category in CATEGORIES:
+        print()
+        print("=" * 60)
+        print("Categoria:", category)
+        print("=" * 60)
+
+        model_path = models_root / f"mvtec_{category}"
+
+        if not model_path.exists():
+            raise FileNotFoundError(
+                f"Modelo não encontrado: {model_path}"
+            )
+
+        nn_method = patchcore.common.FaissNN(
+            on_gpu=False,
+            num_workers=4,
+        )
+
+        model = patchcore.patchcore.PatchCore(device)
+
+        model.load_from_path(
+            load_path=str(model_path),
+            device=device,
+            nn_method=nn_method,
+        )
+
+        dataset = MVTecDataset(
+            source=str(dataset_root),
+            classname=category,
+            resize=256,
+            imagesize=224,
+            split=DatasetSplit.TEST,
+        )
+
+        dataloader = torch.utils.data.DataLoader(
+            dataset,
+            batch_size=args.batch_size,
+            shuffle=False,
+            num_workers=4,
+            pin_memory=True,
+        )
+
+        print("Imagens de teste:", len(dataset))
+
+        scores, maps, labels, _ = model.predict(
+            dataloader
+        )
+
+        if len(maps) != len(dataset.data_to_iterate):
+            raise RuntimeError(
+                "Número de mapas diferente "
+                "do número de imagens."
+            )
+
+        csv_rows = []
+
+        for metadata, score, anomaly_map, label in zip(
+            dataset.data_to_iterate,
+            scores,
+            maps,
+            labels,
+        ):
+            (
+                classname,
+                anomaly_type,
+                image_path,
+                mask_path,
+            ) = metadata
+
+            image_path = Path(image_path)
+
+            with Image.open(image_path) as image:
+                original_width, original_height = image.size
+
+            (
+                restored_map,
+                resized_width,
+                resized_height,
+                crop_left,
+                crop_top,
+                fill_score,
+            ) = restore_center_crop_map(
+                anomaly_map,
+                original_width,
+                original_height,
+            )
+
+            map_dir = (
+                output_root /
+                "anomaly_maps" /
+                "mvtec_loco" /
+                category /
+                "test" /
+                anomaly_type
+            )
+
+            map_dir.mkdir(
+                parents=True,
+                exist_ok=True,
+            )
+
+            map_path = (
+                map_dir /
+                f"{image_path.stem}.tiff"
+            )
+
+            tifffile.imwrite(
+                str(map_path),
+                restored_map,
+            )
+
+            csv_rows.append({
+                "category": category,
+                "anomaly_type": anomaly_type,
+                "image_path": str(image_path),
+                "map_path": str(map_path),
+                "is_anomaly": int(label),
+                "patchcore_image_score": float(score),
+                "map_max_score": float(restored_map.max()),
+                "original_width": original_width,
+                "original_height": original_height,
+                "resized_width": resized_width,
+                "resized_height": resized_height,
+                "crop_left": crop_left,
+                "crop_top": crop_top,
+                "fill_score": fill_score,
+            })
+
+        score_dir = output_root / "scores"
+        score_dir.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+        csv_path = score_dir / f"{category}.csv"
+
+        with open(csv_path, "w", newline="") as f:
+            writer = csv.DictWriter(
+                f,
+                fieldnames=csv_rows[0].keys(),
+            )
+            writer.writeheader()
+            writer.writerows(csv_rows)
+
+        print(
+            f"{category}: {len(maps)} mapas salvos."
+        )
+
+        # Mostra a geometria da primeira imagem para auditoria.
+        first = csv_rows[0]
+
+        print(
+            "Geometria exemplo: "
+            f"original="
+            f"{first['original_width']}x"
+            f"{first['original_height']} "
+            f"resize="
+            f"{first['resized_width']}x"
+            f"{first['resized_height']} "
+            f"crop origin="
+            f"({first['crop_left']},"
+            f"{first['crop_top']})"
+        )
+
+        total_maps += len(maps)
+
+        del model
+        del dataloader
+        del dataset
+
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+
+    print()
+    print("Exportação concluída.")
+    print("Total de mapas:", total_maps)
+
+
+if __name__ == "__main__":
+    main()

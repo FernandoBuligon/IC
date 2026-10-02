@@ -1,0 +1,38 @@
+--- src/aggregation.py.official_backup	2026-09-30 01:24:15.276141461 -0300
++++ src/aggregation.py	2026-09-30 14:46:07.105504002 -0300
+@@ -492,6 +492,9 @@
+             num_sampled_per_image = int(np.floor(max_num_scores / num_images))
+         sampled_scores = []
+ 
++        # Fixed local RNG for reproducible threshold sampling.
++        rng = np.random.RandomState(0)
++
+         # Iterate through the images and keep track of the maximum and minimum
+         # of all anomaly scores.
+         some_score = self.anomaly_maps[0].np_array[0, 0]
+@@ -503,9 +506,9 @@
+             # Sample scores from this image.
+             flat_scores = anomaly_map.np_array.flatten()
+             assert len(flat_scores) == num_scores_per_image
+-            sampled_scores_image = np.random.choice(flat_scores,
+-                                                    size=num_sampled_per_image,
+-                                                    replace=False)
++            sampled_scores_image = rng.choice(flat_scores,
++                                             size=num_sampled_per_image,
++                                             replace=False)
+             sampled_scores.append(sampled_scores_image)
+ 
+         min_threshold = min_score - epsilon
+@@ -527,4 +530,12 @@
+         # to form the list of thresholds, sorted in descending order.
+         thresholds = equiheight_scores.tolist()[::-1]
+         thresholds = [max_threshold] + thresholds + [min_threshold]
++
++        # Some anomaly-score distributions contain large plateaus, e.g.
++        # many pixels with exactly the same score. In this case, sampling
++        # equidistant indices can yield duplicate thresholds. Since
++        # binary_refinement requires unique queries, remove only exact
++        # duplicates while preserving the original descending order.
++        thresholds = list(dict.fromkeys(thresholds))
++
+         return thresholds
