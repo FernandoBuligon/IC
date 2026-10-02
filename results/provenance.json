@@ -1,0 +1,230 @@
+{
+  "description": "Original final CSV and evaluator JSON files, unchanged. Paths relative to repository root.",
+  "files": [
+    {
+      "path": "results/patchcore/patchcore_mvtec_ad_geometry_fixed_summary.csv",
+      "bytes": 661,
+      "sha256": "517e4da5af178430d2742ecbd0489ed552267aeda0ab5f263407f7af170e7237"
+    },
+    {
+      "path": "results/efficientad/efficientad_mvtec_ad_results.csv",
+      "bytes": 791,
+      "sha256": "a415e9e0685edb43d875349f05ab7d102ac257acacafbffc9254003c8edf79f9"
+    },
+    {
+      "path": "results/efficientad_loco/efficientad_loco_summary.csv",
+      "bytes": 752,
+      "sha256": "8241c12da8e90008ff24979b248b7885d2043cdc6ab2d6357b30c321479e50b9"
+    },
+    {
+      "path": "results/patchcore_loco/patchcore_loco_summary_geometry_fixed.csv",
+      "bytes": 754,
+      "sha256": "d980789c88cd65261833ddcb8744e7d54e85f0bbd6f2d2c22f66f8f8c0969ba2"
+    },
+    {
+      "path": "results/loco_patchcore_vs_efficientad.csv",
+      "bytes": 2365,
+      "sha256": "1c1f9853057d1e1b7f9516f78b4cd1283af13b2fa9a232844c5d35f90fd9634c"
+    },
+    {
+      "path": "results/patchcore/standardized_eval_geometry_fixed/metrics/bottle/metrics.json",
+      "bytes": 4099,
+      "sha256": "2155d38b9c2c91d8a9b8e30cffe70e6c97afb2991051709f85ce0ae027184605"
+    },
+    {
+      "path": "results/patchcore/standardized_eval_geometry_fixed/metrics/cable/metrics.json",
+      "bytes": 7838,
+      "sha256": "5fa297789787feeb98018598374a84fc3428255b1bfb984020fa5258e659d70d"
+    },
+    {
+      "path": "results/patchcore/standardized_eval_geometry_fixed/metrics/capsule/metrics.json",
+      "bytes": 7646,
+      "sha256": "cce702ac0d1b1e5c55c8a6dc264aabb5259c1f3cdf962a0ac22467692d3a8f14"
+    },
+    {
+      "path": "results/patchcore/standardized_eval_geometry_fixed/metrics/carpet/metrics.json",
+      "bytes": 6317,
+      "sha256": "99a9bcd3d9353b77b9d09ef37cb4e2570812ef51a61681ac69843f31e17a6aef"
+    },
+    {
+      "path": "results/patchcore/standardized_eval_geometry_fixed/metrics/grid/metrics.json",
+      "bytes": 4548,
+      "sha256": "6fdb68228c6873874c5320be66a818c9bcbe24060476bad78c7102a1c1121a06"
+    },
+    {
+      "path": "results/patchcore/standardized_eval_geometry_fixed/metrics/hazelnut/metrics.json",
+      "bytes": 5062,
+      "sha256": "a1e9c08e1088e40c9949b8ab1a4ab01079265e16b54da0ba199d399a7590bccd"
+    },
+    {
+      "path": "results/patchcore/standardized_eval_geometry_fixed/metrics/leather/metrics.json",
+      "bytes": 5982,
+      "sha256": "f2665ebb127b3ab721777ad22a0ea2c93eea5723aa602965bf9913b0e65ab4fd"
+    },
+    {
+      "path": "results/patchcore/standardized_eval_geometry_fixed/metrics/metal_nut/metrics.json",
+      "bytes": 6018,
+      "sha256": "e8cc1d135539ffc49cb695835dd5390a952774d8b0eed6dd0e9e00346d4ab235"
+    },
+    {
+      "path": "results/patchcore/standardized_eval_geometry_fixed/metrics/pill/metrics.json",
+      "bytes": 9163,
+      "sha256": "404862074b173100a4f2447d7761560b5f39e56a4c001d811a919a3614928549"
+    },
+    {
+      "path": "results/patchcore/standardized_eval_geometry_fixed/metrics/screw/metrics.json",
+      "bytes": 8965,
+      "sha256": "585fbfebf1a4e3c74d96a718b2f3f57e1abe14e201b6dad1ebed7276e3e04b69"
+    },
+    {
+      "path": "results/patchcore/standardized_eval_geometry_fixed/metrics/tile/metrics.json",
+      "bytes": 6397,
+      "sha256": "ad30946727811aff8aee83d4a9e1701a6fecb0c1f97b02d191de0baf78785566"
+    },
+    {
+      "path": "results/patchcore/standardized_eval_geometry_fixed/metrics/toothbrush/metrics.json",
+      "bytes": 2178,
+      "sha256": "4ce701cf86f678193d39abef6d71278bc5d6838b4c16061f65c07e3fbddf8f8a"
+    },
+    {
+      "path": "results/patchcore/standardized_eval_geometry_fixed/metrics/transistor/metrics.json",
+      "bytes": 4397,
+      "sha256": "dede24c07c7b0b191728c8c76d810b01433cf6bd3a1bf6a5ddbf4e685f184c9a"
+    },
+    {
+      "path": "results/patchcore/standardized_eval_geometry_fixed/metrics/wood/metrics.json",
+      "bytes": 4056,
+      "sha256": "8eddf21e66d0f00f68bfe6d2fb746891fcb50f91a83d10fc095bf8ecd7ced0c3"
+    },
+    {
+      "path": "results/patchcore/standardized_eval_geometry_fixed/metrics/zipper/metrics.json",
+      "bytes": 7514,
+      "sha256": "7070850a2108f9d11364d7da73e0d2888453cd72a52e1eb11927447f6dc047e7"
+    },
+    {
+      "path": "results/efficientad/EA002_bottle_full/metrics/mvtec_ad/metrics.json",
+      "bytes": 4099,
+      "sha256": "2d4b5c7e3b76d87f06782127de15457d7393e45f9860fd7896e10d69f7505703"
+    },
+    {
+      "path": "results/efficientad/EA003_cable_full/metrics/mvtec_ad/metrics.json",
+      "bytes": 9642,
+      "sha256": "f71b1b034e773934098e692302ac282ca3a0c72af25bb8eb5e1c5b6f230d2f7d"
+    },
+    {
+      "path": "results/efficientad/EA003_capsule_full/metrics/mvtec_ad/metrics.json",
+      "bytes": 7338,
+      "sha256": "5ee91dc6f3da98f3446516f5191965fec882054ad6a62046ddfa54852f90426e"
+    },
+    {
+      "path": "results/efficientad/EA003_carpet_full/metrics/mvtec_ad/metrics.json",
+      "bytes": 6250,
+      "sha256": "e24ae9929af1995dcbf502a5c1d755537ae1b2b2f836fbcca09046e3fa1fdfa9"
+    },
+    {
+      "path": "results/efficientad/EA003_grid_full/metrics/mvtec_ad/metrics.json",
+      "bytes": 4135,
+      "sha256": "1eb9183476585cd3788a12604210167357219026e6252402edd15505c5ae0e93"
+    },
+    {
+      "path": "results/efficientad/EA003_hazelnut_full/metrics/mvtec_ad/metrics.json",
+      "bytes": 5062,
+      "sha256": "c8ff127749e91ed2dc49cdb77e3130bde05fdee3ecaa1fcaa70a87ce3eb2053e"
+    },
+    {
+      "path": "results/efficientad/EA003_leather_full/metrics/mvtec_ad/metrics.json",
+      "bytes": 5982,
+      "sha256": "1fb386c33467ca6bb7344832ef68a3e394f960e7533f120d9c86c591e341aa07"
+    },
+    {
+      "path": "results/efficientad/EA003_metal_nut_full/metrics/mvtec_ad/metrics.json",
+      "bytes": 6104,
+      "sha256": "ce0a0ba7d1dc35711be2ab3c958d23e5075ab53b06813ddf9485ae9e9cec071b"
+    },
+    {
+      "path": "results/efficientad/EA003_pill_full/metrics/mvtec_ad/metrics.json",
+      "bytes": 8856,
+      "sha256": "8ae49d510e8db2e5bb40d759f83bd85936f7c861ee59a59e994641d3748886c7"
+    },
+    {
+      "path": "results/efficientad/EA003_screw_full/metrics/mvtec_ad/metrics.json",
+      "bytes": 9386,
+      "sha256": "35cac643380fbdf6684a42ed2d1609493f219d82b9583d7d12ceeae58247b1d1"
+    },
+    {
+      "path": "results/efficientad/EA003_tile_full/metrics/mvtec_ad/metrics.json",
+      "bytes": 6083,
+      "sha256": "8c0aa226908a41576a451028d6317f39bc23abc192d4564586a45cc2ee93a200"
+    },
+    {
+      "path": "results/efficientad/EA003_toothbrush_full/metrics/mvtec_ad/metrics.json",
+      "bytes": 2180,
+      "sha256": "8ef933e51f98808cf526a6a4146e4e93cf561a136c01d208ad7da5708558b5a7"
+    },
+    {
+      "path": "results/efficientad/EA003_transistor_full/metrics/mvtec_ad/metrics.json",
+      "bytes": 4397,
+      "sha256": "a5c16876aa9659ca3f5bc8018d092482027d6a223208a367981c8fd290856960"
+    },
+    {
+      "path": "results/efficientad/EA003_wood_full/metrics/mvtec_ad/metrics.json",
+      "bytes": 4024,
+      "sha256": "f7adcf08a74fa0ae3361dc26b5dede712abca08b417eb359380b78bff45ad64b"
+    },
+    {
+      "path": "results/efficientad/EA003_zipper_full/metrics/mvtec_ad/metrics.json",
+      "bytes": 7485,
+      "sha256": "0982808d21481393e1be605d795e3cca4d9486eeae646e7eee31526e24ce70f2"
+    },
+    {
+      "path": "results/efficientad_loco/EAL_full_evaluation/metrics/mvtec_loco/breakfast_box/metrics.json",
+      "bytes": 1059,
+      "sha256": "80f6de67d21debcee4cb652a5b0af6864023a80f26c219642f7207fda69bee5f"
+    },
+    {
+      "path": "results/efficientad_loco/EAL_full_evaluation/metrics/mvtec_loco/juice_bottle/metrics.json",
+      "bytes": 1060,
+      "sha256": "9773479b1c3e679b6a38f998f10d5b4504620911e2be570dbb0379537531348e"
+    },
+    {
+      "path": "results/efficientad_loco/EAL_full_evaluation/metrics/mvtec_loco/pushpins/metrics.json",
+      "bytes": 1056,
+      "sha256": "902dbaa4293ef9a5c24e24b0cf027bd22fd823a3e9d5b015779fbe09cf9ed42d"
+    },
+    {
+      "path": "results/efficientad_loco/EAL_full_evaluation/metrics/mvtec_loco/screw_bag/metrics.json",
+      "bytes": 1061,
+      "sha256": "52ce9385cb713e23f44850eb01ff8b97a3f9c2af629d89394ec3dea76beb7ee7"
+    },
+    {
+      "path": "results/efficientad_loco/EAL_full_evaluation/metrics/mvtec_loco/splicing_connectors/metrics.json",
+      "bytes": 1057,
+      "sha256": "8c1e5cf13026b8b127031a46f623b2f9c559cf9ab7969b571ea6282d3f2a5dd4"
+    },
+    {
+      "path": "results/patchcore_loco/PCL001/standardized_eval_geometry_fixed/metrics/mvtec_loco/breakfast_box/metrics.json",
+      "bytes": 1060,
+      "sha256": "c29c70d77ebcec8e7bb01a51adcc1452e04960a79334a001df953e9637f5331f"
+    },
+    {
+      "path": "results/patchcore_loco/PCL001/standardized_eval_geometry_fixed/metrics/mvtec_loco/juice_bottle/metrics.json",
+      "bytes": 1057,
+      "sha256": "59cf17ec4dd0e431dead8ee16db78d3b238d058d852e0852b49c3f4c2f6659aa"
+    },
+    {
+      "path": "results/patchcore_loco/PCL001/standardized_eval_geometry_fixed/metrics/mvtec_loco/pushpins/metrics.json",
+      "bytes": 1058,
+      "sha256": "7f00544d2ecf8058adb99ea470c62098da7edadfb1210c1a913085d06bafc1e2"
+    },
+    {
+      "path": "results/patchcore_loco/PCL001/standardized_eval_geometry_fixed/metrics/mvtec_loco/screw_bag/metrics.json",
+      "bytes": 1060,
+      "sha256": "5684ee82ce60bfb4841d6e5680d82f5ff973fb75064e0ee2276fe62d9ae02cd1"
+    },
+    {
+      "path": "results/patchcore_loco/PCL001/standardized_eval_geometry_fixed/metrics/mvtec_loco/splicing_connectors/metrics.json",
+      "bytes": 1062,
+      "sha256": "d3cbbcddc59726b382f672264bfa90f6db9dc15c1a64badc003507b0a47a869f"
+    }
+  ]
+}

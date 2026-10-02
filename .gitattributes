@@ -1,7 +1,8 @@
 *.py text eol=lf
 *.sh text eol=lf
 *.md text eol=lf
-*.csv -text
+# Keep the original CRLF bytes emitted by csv.writer.
+*.csv -text whitespace=cr-at-eol
 *.json -text
 
 # Unified patches require a leading space on blank context lines.
