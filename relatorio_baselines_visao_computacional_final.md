@@ -264,7 +264,99 @@ Esses resultados indicam que a dificuldade das anomalias lógicas depende tanto 
 
 ---
 
-## 6. Procedimento recomendado para reprodução
+## 6. Comparação com resultados publicados
+
+Os resultados obtidos foram comparados com os valores reportados nos trabalhos originais e nas configurações de referência disponibilizadas pelos autores. Essa comparação deve considerar o protocolo experimental: resultados só são diretamente comparáveis quando configuração, pré-processamento e métrica são equivalentes.
+
+### 6.1. PatchCore no MVTec AD
+
+O artigo do PatchCore reporta Image AUROC de até **99,6%** no MVTec AD, porém esse valor corresponde à melhor configuração estudada pelos autores e não é a referência mais adequada para a execução deste trabalho. A configuração utilizada aqui corresponde à baseline **IM224** da implementação oficial: WideResNet50, `layer2 + layer3`, coreset de 10%, embedding 1024→1024, *patch size* 3, 1-NN e seed 0.
+
+Para essa configuração, a implementação oficial reporta aproximadamente:
+
+```text
+Image AUROC = 99,2%
+Pixel AUROC = 98,1%
+PRO         = 94,4%
+```
+
+A reprodução local obteve Image AUROC de **99,11%** e Full Pixel AUROC de **98,12%** na execução original. Na avaliação padronizada e com a geometria corrigida, o AU-PRO foi **92,54%**.
+
+| Métrica | Referência IM224 | Reprodução local | Diferença |
+|---|---:|---:|---:|
+| Image AUROC | 99,20% | 99,11% | -0,09 p.p. |
+| Pixel AUROC | 98,10% | 98,12% | +0,02 p.p. |
+| PRO / AU-PRO | 94,40% | 92,54% | -1,86 p.p. |
+
+Os resultados de detecção e Pixel AUROC ficaram muito próximos da configuração de referência. A diferença residual em localização permaneceu após a correção geométrica dos mapas e deve ser tratada como um *caveat* de reprodução, pois detalhes de versão, interpolação e protocolo de avaliação podem afetar a métrica regional.
+
+Referências:
+- Roth et al., *Towards Total Recall in Industrial Anomaly Detection*, CVPR 2022.
+- Configuração IM224 da implementação oficial: [Amazon Science — PatchCore `sample_training.sh`](https://github.com/amazon-science/patchcore-inspection/blob/main/sample_training.sh).
+
+### 6.2. EfficientAD-M no MVTec AD
+
+No artigo do EfficientAD, a variante EfficientAD-M reporta **99,1% de Image AUROC** e **93,5% de AU-PRO@0.3** no MVTec AD. Nesta reprodução foram obtidos **99,01%** e **93,62%**, respectivamente.
+
+| Métrica | EfficientAD-M publicado | Reprodução local | Diferença |
+|---|---:|---:|---:|
+| Image AUROC | 99,10% | 99,01% | -0,09 p.p. |
+| AU-PRO@0.3 | 93,50% | 93,62% | +0,12 p.p. |
+
+As diferenças são inferiores a 0,2 ponto percentual nas duas métricas, indicando forte concordância com os resultados publicados para o MVTec AD.
+
+Referência:
+- Batzner, Heckler e König, *EfficientAD: Accurate Visual Anomaly Detection at Millisecond-Level Latencies*, WACV 2024: [CVF Open Access](https://openaccess.thecvf.com/content/WACV2024/html/Batzner_EfficientAD_Accurate_Visual_Anomaly_Detection_at_Millisecond-Level_Latencies_WACV_2024_paper.html).
+
+### 6.3. EfficientAD-M no MVTec LOCO AD
+
+O artigo do EfficientAD reporta, no MVTec LOCO AD, Image AUROC médio de **90,7%**, com **86,8%** para anomalias lógicas e **94,7%** para estruturais. Para localização, o material suplementar reporta AUC-sPRO@0.05 médio de **79,8%**, com **76,5%** para anomalias lógicas e **83,2%** para estruturais.
+
+A reprodução apresentou:
+
+| Métrica | Publicado | Reprodução local | Diferença |
+|---|---:|---:|---:|
+| Image AUROC logical | 86,80% | 84,65% | -2,15 p.p. |
+| Image AUROC structural | 94,70% | 94,23% | -0,48 p.p. |
+| **Image AUROC mean** | **90,70%** | **89,44%** | **-1,26 p.p.** |
+| AUC-sPRO@0.05 logical | 76,50% | 76,28% | -0,22 p.p. |
+| AUC-sPRO@0.05 structural | 83,20% | 83,32% | +0,12 p.p. |
+| **AUC-sPRO@0.05 mean** | **79,80%** | **79,80%** | **≈ 0,00 p.p.** |
+
+A localização ficou praticamente coincidente com o valor publicado, especialmente na média de AUC-sPRO. A maior diferença ocorreu na detecção de anomalias lógicas, aproximadamente 2,15 pontos percentuais abaixo do artigo. Ainda assim, o comportamento global da reprodução permaneceu próximo ao reportado pelos autores.
+
+### 6.4. PatchCore no MVTec LOCO AD
+
+O PatchCore apresentado como baseline no artigo do EfficientAD obteve, no LOCO, Image AUROC médio de **80,3%** e AUC-sPRO@0.05 médio de **39,7%**. Os resultados separados foram **75,8% / 84,8%** de Image AUROC e **41,5% / 37,9%** de AUC-sPRO para anomalias lógicas e estruturais, respectivamente.
+
+Nesta reprodução:
+
+| Métrica | PatchCore no benchmark do EfficientAD | Reprodução local | Diferença |
+|---|---:|---:|---:|
+| Image AUROC logical | 75,80% | 68,54% | -7,26 p.p. |
+| Image AUROC structural | 84,80% | 79,04% | -5,76 p.p. |
+| **Image AUROC mean** | **80,30%** | **73,79%** | **-6,51 p.p.** |
+| AUC-sPRO@0.05 logical | 41,50% | 46,29% | +4,79 p.p. |
+| AUC-sPRO@0.05 structural | 37,90% | 54,07% | +16,17 p.p. |
+| **AUC-sPRO@0.05 mean** | **39,70%** | **50,18%** | **+10,48 p.p.** |
+
+Esses valores **não devem ser interpretados como uma tentativa de reprodução estrita do PatchCore usado no benchmark do EfficientAD**. O material suplementar de Batzner et al. informa que a variante de PatchCore usada por eles emprega **WideResNet101, coreset de 1%, imagens de 224×224 e center crop desabilitado**. Neste projeto foi preservada a configuração já validada no MVTec AD: **WideResNet50, coreset de 10% e `Resize(256) + CenterCrop(224)`**.
+
+Portanto, a comparação serve para contextualizar os resultados, mas as diferenças não podem ser atribuídas exclusivamente à implementação ou ao dataset. No LOCO, o PatchCore deste trabalho deve ser entendido como **a aplicação da baseline definida no projeto ao novo dataset**, e não como reprodução da variante específica usada por Batzner et al.
+
+### 6.5. Síntese da validação
+
+A comparação com os resultados publicados permite separar duas situações:
+
+- **MVTec AD:** as reproduções de PatchCore e EfficientAD-M ficaram próximas das referências correspondentes, validando o ambiente e o pipeline experimental;
+- **MVTec LOCO AD — EfficientAD-M:** os resultados também ficaram próximos do artigo, com AUC-sPRO média praticamente idêntica;
+- **MVTec LOCO AD — PatchCore:** não há equivalência direta de configuração com o benchmark do EfficientAD, portanto os valores devem ser tratados como uma baseline própria deste projeto.
+
+Essa distinção é importante para evitar que diferenças causadas por configuração experimental sejam interpretadas como falhas de reprodução.
+
+---
+
+## 7. Procedimento recomendado para reprodução
 
 Para reproduzir esta etapa, o fluxo mínimo é:
 
@@ -282,7 +374,7 @@ Para validar a reprodução, devem ser comparados tanto os resultados por catego
 
 ---
 
-## 7. Arquivos e scripts utilizados no projeto
+## 8. Arquivos e scripts utilizados no projeto
 
 Os principais artefatos da execução foram mantidos nos seguintes caminhos:
 
@@ -323,24 +415,41 @@ Patch aplicado ao avaliador LOCO:
 
 Esses arquivos são importantes para rastreabilidade, principalmente porque a avaliação final do PatchCore depende da reconstrução geométrica correta dos mapas e a avaliação do LOCO utiliza as correções documentadas no avaliador.
 
-### 7.1. Disponibilização dos artefatos
+### 8.1. Repositório público e acesso aos artefatos
 
-Os caminhos acima correspondem ao ambiente local utilizado durante os experimentos e, isoladamente, não permitem que outro pesquisador acesse os arquivos. Para uma versão pública do trabalho, recomenda-se disponibilizar em um repositório do projeto pelo menos:
+O código, a documentação e os resultados consolidados desta etapa foram publicados no GitHub:
 
-- scripts desenvolvidos para adaptação, exportação e avaliação;
-- arquivo com as versões/commits das implementações utilizadas;
-- arquivos de configuração e comandos necessários para executar cada baseline;
-- CSVs ou JSONs com os resultados por categoria e resultados agregados;
-- *patch* aplicado ao avaliador do MVTec LOCO AD;
-- README contendo instruções de preparação dos datasets e reprodução dos experimentos.
+**Repositório:** [FernandoBuligon/IC](https://github.com/FernandoBuligon/IC)
 
-Não é necessário versionar no GitHub os datasets MVTec, modelos pré-treinados de terceiros ou todos os *anomaly maps* gerados. Para arquivos grandes, pode-se disponibilizar apenas os resultados consolidados no repositório e, caso seja necessário preservar mapas, checkpoints ou saídas completas, utilizar uma plataforma apropriada para artefatos de maior volume e referenciá-la no README.
+A versão publicada contém o README principal, o relatório desta etapa, documentação de reprodução, ambientes, scripts auxiliares, registros selecionados e os arquivos de métricas necessários para conferência dos resultados.
 
-Na versão pública do relatório, os caminhos locais devem ser mantidos apenas como informação de organização interna ou substituídos/complementados por links permanentes para os arquivos correspondentes no repositório.
+Acesso direto aos principais grupos de artefatos:
+
+| Conteúdo | Link |
+|---|---|
+| Repositório principal | [github.com/FernandoBuligon/IC](https://github.com/FernandoBuligon/IC) |
+| Relatório desta etapa | [`relatorio_baselines_visao_computacional_final.md`](https://github.com/FernandoBuligon/IC/blob/main/relatorio_baselines_visao_computacional_final.md) |
+| README e instruções de reprodução | [`README.md`](https://github.com/FernandoBuligon/IC/blob/main/README.md) |
+| Resultados e métricas | [`results/`](https://github.com/FernandoBuligon/IC/tree/main/results) |
+| Scripts desenvolvidos | [`tools/`](https://github.com/FernandoBuligon/IC/tree/main/tools) |
+| Ambientes e dependências | [`environments/`](https://github.com/FernandoBuligon/IC/tree/main/environments) |
+| Documentação complementar | [`docs/`](https://github.com/FernandoBuligon/IC/tree/main/docs) |
+| Logs e patch do avaliador | [`logs/`](https://github.com/FernandoBuligon/IC/tree/main/logs) |
+
+Scripts citados neste relatório:
+
+- [`exportar_patchcore_mvtec_maps_geometry_fixed.py`](https://github.com/FernandoBuligon/IC/blob/main/tools/exportar_patchcore_mvtec_maps_geometry_fixed.py);
+- [`criar_adapter_patchcore_loco.py`](https://github.com/FernandoBuligon/IC/blob/main/tools/criar_adapter_patchcore_loco.py);
+- [`exportar_patchcore_loco_maps_geometry_fixed.py`](https://github.com/FernandoBuligon/IC/blob/main/tools/exportar_patchcore_loco_maps_geometry_fixed.py);
+- [`mvtec_loco_evaluator_patch.diff`](https://github.com/FernandoBuligon/IC/blob/main/logs/mvtec_loco_evaluator_patch.diff).
+
+Na organização publicada foram preservados **5 arquivos CSV e 40 arquivos JSON** de resultados/métricas, sem alteração de seus conteúdos. Os datasets MVTec, adapters contendo imagens ou links simbólicos, pesos, checkpoints, clones de implementações externas e *anomaly maps* em massa permaneceram fora do Git.
+
+Dessa forma, os caminhos locais apresentados na seção anterior registram a organização utilizada durante os experimentos, enquanto o repositório público fornece acesso aos scripts, configurações, documentação e resultados necessários para auditoria e reprodução.
 
 ---
 
-## 8. Conclusões
+## 9. Conclusões
 
 A etapa permitiu estabelecer duas referências de Visão Computacional para detecção e localização de anomalias.
 
@@ -348,4 +457,8 @@ No MVTec AD, PatchCore e EfficientAD-M apresentaram Image AUROC médio próximo 
 
 No MVTec LOCO AD, as diferenças entre os métodos foram maiores. O EfficientAD-M obteve médias de 0.8944 em Image AUROC e 0.7980 em AUC-sPRO@0.05, enquanto o PatchCore obteve 0.7379 e 0.5018, respectivamente. Os dois métodos apresentaram, em média, maior desempenho em anomalias estruturais do que em anomalias lógicas, embora esse comportamento varie conforme a categoria.
 
+A comparação com os resultados publicados também forneceu uma validação externa do pipeline. No MVTec AD, as duas baselines apresentaram valores próximos às referências correspondentes. No LOCO, o EfficientAD-M manteve forte concordância com o artigo, incluindo AUC-sPRO média praticamente idêntica. Para o PatchCore no LOCO, a comparação com o artigo do EfficientAD foi tratada apenas como contextual, pois as configurações experimentais são diferentes.
+
 Além dos valores quantitativos, a etapa mostrou que a avaliação de baselines de anomalia depende de detalhes de implementação que afetam diretamente a localização, como a reconstrução espacial dos *anomaly maps*, o uso correto das anotações do LOCO e a aplicação de um protocolo de avaliação comum. Esses cuidados são necessários para que os resultados sejam comparáveis e possam servir como referência confiável para as próximas etapas do projeto.
+
+Os scripts, resultados consolidados e documentação de reprodução estão disponíveis no repositório público [FernandoBuligon/IC](https://github.com/FernandoBuligon/IC).
